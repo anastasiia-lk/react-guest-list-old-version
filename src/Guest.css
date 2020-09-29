@@ -1,3 +1,37 @@
+body {
+  background: url('https://image.freepik.com/free-photo/office-blue-desk-equipment-working-top-view-flat-lay-blue-background_38937-393.jpg');
+  background-size: cover;
+}
+
+button {
+  color: white;
+  font-size: 16px;
+  border-radius: 12px;
+  border-color: #ccc;
+  background-color: #ccc;
+  cursor: pointer;
+}
+
+.container:hover .button {
+  color: white;
+  font-size: 16px;
+  border-radius: 12px;
+  border-color: #2196f3;
+  background-color: #2196f3;
+}
+
+.buttonAdd:hover {
+  color: white;
+  font-size: 16px;
+  border-radius: 12px;
+  border-color: #2196f3;
+  background-color: #2196f3;
+}
+
+.guestText {
+  color: #2196f3;
+}
+
 /* Customize the label (the container) */
 .container {
   display: block;
@@ -10,6 +44,7 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  margin-left: 900px;
 }
 
 /* Hide the browser's default radio button */
@@ -38,7 +73,6 @@
 }
 
 .container:hover input ~ .guestText {
-  text-decoration-line: line-through;
   color: #ccc;
 }
 
@@ -49,8 +83,8 @@
 
 .container input:checked ~ .guestText {
   /* text-decoration-line: line-through; */
-  background-color: #2196f3;
-  color: white;
+  color: #2196f3;
+  font-weight: bold;
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
@@ -73,4 +107,29 @@
   height: 8px;
   border-radius: 50%;
   background: white;
+}
+
+.inputFirstNameStyles {
+  margin-left: 700px;
+}
+
+.inputLastNameStyles {
+  margin-left: 700px;
+}
+
+.buttonAdd {
+  margin-left: 700px;
+}
+
+.waitingStyles {
+  margin-left: 700px;
+  color: #2196f3;
+  font-size: 24px;
+  font-weight: bold;
+}
+.confirmedStyles {
+  margin-left: 700px;
+  color: #2196f3;
+  font-size: 24px;
+  font-weight: bold;
 }
