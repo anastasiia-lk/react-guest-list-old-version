@@ -48,8 +48,9 @@
 }
 
 .container input:checked ~ .guestText {
-  text-decoration-line: line-through;
-  color: #ccc;
+  /* text-decoration-line: line-through; */
+  background-color: #2196f3;
+  color: white;
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */

@@ -1,8 +1,12 @@
 import React from 'react';
+import Delete from './components/Delete.js';
 
-export default function Guest({ guest, toggleGuest }) {
+export default function Guest({ guest, toggleGuest, handleClearGuestList }) {
   function handleGuestClick() {
     toggleGuest(guest.id);
+  }
+  function handleClearClick() {
+    handleClearGuestList(guest.id);
   }
   return (
     <div>
@@ -10,11 +14,14 @@ export default function Guest({ guest, toggleGuest }) {
         <input
           class="checkboxStyle"
           type="checkbox"
-          checked={guest.complete}
+          checked={guest.attending}
           onChange={handleGuestClick}
         />
         <span class="checkmark"></span>
-        <p class="guestText">{guest.name}</p>
+        <p class="guestText">
+          {guest.firstName} {guest.lastName}
+        </p>
+        <button onClick={handleClearClick}>Delete</button>
       </label>
     </div>
   );

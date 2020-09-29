@@ -8,45 +8,52 @@ import { jsx, css } from '@emotion/core';
 import GuestList from './GuestList.js';
 import { v4 as uuidv4 } from 'uuid';
 
+// Change to the API
 const LOCAL_STORAGE_KEY = 'guestApp.guestList';
+const baseUrl = 'http://localhost:5000';
 
 function App() {
   const [guestList, setGuestList] = useState([]);
+  const [id, setId] = useState(0);
   const guestFirstNameRef = useRef();
   const guestLastNameRef = useRef();
 
+  // Save after refreshing
+  // useEffect(() => {
+  //  const storedGuestList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+  //  if (storedGuestList) setGuestList(storedGuestList);
+  // }, []);
+
   useEffect(() => {
-    const storedGuestList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-    if (storedGuestList) setGuestList(storedGuestList);
+    const fetchData = async () => {
+      const response = await fetch('http://localhost:5000');
+      const storedGuestList = await response.json();
+      if (storedGuestList) setGuestList(storedGuestList);
+      // console.log(storedGuestList);
+    };
+
+    fetchData();
+    // });
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(guestList));
-  }, [guestList]);
+  // Every time save when changing smth
+  // useEffect(() => {
+  // localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(guestList));
+  // }, [guestList]);
 
-  function toggleGuest(id) {
-    const newGuestList = [...guestList];
-    const guest = newGuestList.find((guest) => guest.id === id);
-    guest.complete = !guest.complete;
-    setGuestList(newGuestList);
-  }
-
-  function handleAddGuest(e) {
-    const name =
-      guestFirstNameRef.current.value + ' ' + guestLastNameRef.current.value;
-    if (name === '') return;
-    setGuestList((prevGuestList) => {
-      return [...prevGuestList, { id: uuidv4(), name: name, complete: false }];
+  /* useEffect(() => {
+    const DataPost = async () => {
+      const response = await fetch('http://localhost:5000', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+      firstName: guestFirstNameRef.current.value,
+      lastName: guestLastNameRef.current.value,
+      }),
     });
-    console.log(name);
-    guestFirstNameRef.current.value = null;
-    guestLastNameRef.current.value = null;
-  }
-
-  function handleClearGuestList() {
-    const newGuestList = guestList.filter((guest) => !guest.complete);
-    setGuestList(newGuestList);
-  }
+  }, [guestList]); */
 
   const DataPost = async () => {
     // useEffect(() => {
@@ -59,17 +66,122 @@ function App() {
       body: JSON.stringify({
         // firstName: 'hello',
         // lastName: 'world',
-        firstName: document.getElementById('firstName').value,
-        lastName: document.getElementById('lastName').value,
+        firstName: guestFirstNameRef.current.value,
+        lastName: guestLastNameRef.current.value,
+      }),
+    });
+    const createdGuest = await response.json();
+  };
+
+  /* function toggleGuest(id) {
+    const newGuestList = [...guestList];
+    const guest = newGuestList.find((guest) => guest.id === id);
+    guest.attending = !guest.attending;
+    setGuestList(newGuestList);
+  }
+  */
+
+  async function toggleGuest(id) {
+    const newGuestList = [...guestList];
+    const guest = newGuestList.find((guest) => guest.id === id);
+    guest.attending = !guest.attending;
+    setGuestList(newGuestList);
+
+    const response = await fetch(`${baseUrl}/${guest.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ attending: true }),
+    });
+  }
+
+  async function handleAddGuest(e) {
+    const newFirstName = guestFirstNameRef.current.value;
+    const newLastName = guestLastNameRef.current.value;
+    const newId = id + 1;
+    if (newFirstName === '') return;
+    if (newLastName === '') return;
+    setGuestList((prevGuestList) => {
+      return [
+        ...prevGuestList,
+        {
+          /*id: uuidv4(),*/ id: newId,
+          firstName: newFirstName,
+          lastName: newLastName,
+          attending: false,
+        },
+      ];
+    });
+    setId(newId);
+    const response = await fetch('http://localhost:5000', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        firstName: guestFirstNameRef.current.value,
+        lastName: guestLastNameRef.current.value,
+      }),
+    });
+    // console.log(newFirstName);
+    // console.log(newLastName);
+    guestFirstNameRef.current.value = null;
+    guestLastNameRef.current.value = null;
+  }
+
+  async function handleClearGuestList(id) {
+    // const newDelGuestList = [...guestList];
+    // const guest = newDelGuestList.find((guest) => guest.id === id);
+    // setGuestList(newGuestList);
+    // const newDelGuestList = [...guestList];
+    // const guest = newDelGuestList.find((guest) => guest.id === id);
+    // const guest = newDelGuestList.find((guest) => guest.id === id);
+    const newGuestList = guestList.filter((guest) => {
+      if (guest.id === id) {
+        return false;
+      }
+      return true;
+    });
+    setGuestList(newGuestList);
+    const response = await fetch(`${baseUrl}/${id}`, {
+      method: 'DELETE',
+    });
+    // const response = await fetch(`${baseUrl}/${guest.id}`, {
+    // method: 'DELETE',
+    // });
+
+    // const newGuestList = guestList.filter((guest) => !guest.id);
+    // setGuestList(newGuestList);
+  }
+
+  /* const DataPost = async () => {
+    // useEffect(() => {
+    // const fetchData = async () => {
+    const response = await fetch('http://localhost:5000', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        // firstName: 'hello',
+        // lastName: 'world',
+        firstName: guestFirstNameRef.current.value,
+        lastName: guestLastNameRef.current.value,
       }),
     });
     const createdGuest = await response.json();
   };
   // fetchData();
-  // }, []);
+  // }, []);*/
+
   return (
     <div>
-      <GuestList guestList={guestList} toggleGuest={toggleGuest} />
+      <GuestList
+        guestList={guestList}
+        toggleGuest={toggleGuest}
+        handleClearGuestList={handleClearGuestList}
+      />
       <input
         ref={guestFirstNameRef}
         type="text"
@@ -83,11 +195,13 @@ function App() {
         id="lastName"
         placeholder="Enter the last name"
       />
-      <button onClick={handleAddGuest}>Print Guest</button>
+      <button onClick={handleAddGuest}>Add Guest</button>
       <button onClick={handleClearGuestList}>Delete Guest</button>
-      <button onClick={DataPost}>Add the guest</button>
-      <div>{guestList.filter((guest) => !guest.complete).length} confirmed</div>
-      <div>{guestList.filter((guest) => guest.complete).length} delete </div>
+      <div>
+        {guestList.filter((guest) => !guest.attending).length} waiting the
+        decision
+      </div>
+      <div>{guestList.filter((guest) => guest.attending).length} confirmed</div>
     </div>
   );
 }
