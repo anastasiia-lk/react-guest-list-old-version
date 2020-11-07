@@ -8,10 +8,10 @@ Guest list created using React.
 
 ### Functionalities
 
-Creating a guest: enter separate first name and last name into input fields "Enter the first name" and "Enter the last name" accordingly
-Adding a guest to the giest list: click the button "Add Guest"
-Deleting a guest from the guest list: click the button "Delete"
-Setting a guest as "attending": click the radio button to confirm that the guest is coming to the event
+- Creating a guest: enter separate first name and last name into input fields "Enter the first name" and "Enter the last name" accordingly
+- Adding a guest to the giest list: click the button "Add Guest"
+- Deleting a guest from the guest list: click the button "Delete"
+- Setting a guest as "attending": click the radio button to confirm that the guest is coming to the event
 
 ## How to start
 
