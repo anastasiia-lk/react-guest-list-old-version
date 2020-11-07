@@ -2,9 +2,9 @@
 
 Guest list created using React.
 
-[Link to GitHub repo](https://github.com/anastasiia-lk/react-guest-list)
-[Link to CodeSandbox](https://codesandbox.io/s/recursing-snow-5x881)
-[Link to Netlify](https://priceless-pike-8d087b.netlify.app/)
+- [Link to GitHub repo](https://github.com/anastasiia-lk/react-guest-list)
+- [Link to CodeSandbox](https://codesandbox.io/s/recursing-snow-5x881)
+- [Link to Netlify](https://priceless-pike-8d087b.netlify.app/)
 
 ### Functionalities
 
